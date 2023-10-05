@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  app:
+    build: 
+      context: app/
+      dockerfile: Dockerfile
+    command: python api.py
+    depends_on:
+      - tarantool
+
+  tarantool:
+    build: 
+      context: kv-store/
+      dockerfile: Dockerfile
+    ports:
+      - '3301:3301'
+    volumes:
+      - ./db_tarantool/:/var/lib/tarantool
