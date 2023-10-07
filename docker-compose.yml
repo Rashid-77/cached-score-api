@@ -6,6 +6,8 @@ services:
       context: app/
       dockerfile: Dockerfile
     command: python api.py
+    ports:
+      - '8080:8080'
     depends_on:
       - tarantool
 

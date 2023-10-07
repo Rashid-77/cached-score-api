@@ -2,10 +2,11 @@
 
 
 local function init()
-    link = box.schema.space.create('link')
+    link = box.schema.space.create('store')
     link:format({
              {name = 'key', type = 'string'},
              {name = 'value', type = 'string'},
+             {name = 'ttl', type = 'number'},
     })
 
     link:create_index('primary', {
