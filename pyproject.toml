@@ -18,3 +18,9 @@
       | blib2to3
       | tests/data
     )/ '''
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+pythonpath = "src"

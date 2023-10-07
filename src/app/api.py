@@ -10,8 +10,8 @@ from datetime import date
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from optparse import OptionParser
 
-from db import Store
-from scoring import get_interests, get_score
+from app.db import Store
+from app.scoring import get_interests, get_score
 
 SALT = "Otus"
 ADMIN_LOGIN = "admin"
@@ -77,6 +77,7 @@ class CharField(Field):
     def validate(self, val):
         if not isinstance(val, str):
             raise ValueError(f"Value {val} have to be str, not {type(val)}")
+        return val
 
 
 class ArgumentsField(Field):

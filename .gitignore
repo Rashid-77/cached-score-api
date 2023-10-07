@@ -152,4 +152,5 @@ profile*.html
 profile*.json
 *.prof
 
-db_tarantool
+db_tarantool*
+docker-stack.yml

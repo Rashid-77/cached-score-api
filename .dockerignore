@@ -1,1 +1,2 @@
-db_tarantool
+db_tarantool*
+docker-stack.yml

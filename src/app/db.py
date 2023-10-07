@@ -1,7 +1,6 @@
 from time import time
 
 import tarantool
-from api import logging
 
 RECONNECT_MAX_ATTEMPTS = 5
 RECONNECT_DELAY = 1
@@ -41,8 +40,8 @@ class Store:
         try:
             if val is not None:
                 return val[1] if val[2] >= time() else 0
-        except IndexError as e:
-            logging.error(e)
+        except IndexError:
+            pass
         return 0
 
     def _set(self, key: str, value: str, lte):
@@ -55,8 +54,8 @@ class Store:
         try:
             response = self.link_space.select(key)
             return response.data[0]
-        except tarantool.error.NetworkError as e:
-            logging.error(e)
+        except tarantool.error.NetworkError:
+            pass
         except IndexError:
             pass
         return ()
