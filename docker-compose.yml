@@ -12,7 +12,7 @@ services:
     depends_on:
       - tarantool
     volumes:
-      - ./src/app:/code/src/app
+      - ./logs/:/code/logs
 
   tarantool:
     build: 

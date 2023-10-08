@@ -14,4 +14,6 @@ WORKDIR /code/
 RUN mkdir tests
 COPY tests/ tests/
 
+RUN mkdir logs
+
 ENV PYTHONPATH=/code/src
