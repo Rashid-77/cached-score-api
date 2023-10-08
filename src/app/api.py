@@ -127,7 +127,7 @@ class BirthDayField(DateField):
         self.value = super().validate(val)
         if self.is_old():
             raise ValueError("Age must be less than 70 years.")
-        return val
+        return self.value
 
     def is_old(self) -> bool:
         today = date.today()
