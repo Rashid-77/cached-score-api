@@ -13,11 +13,7 @@ def get_score(store, phone, email, birthday=None, gender=None, first_name=None, 
     key = "uid:" + hashlib.md5("".join(key_parts).encode()).hexdigest()
     # try get from cache,
     # fallback to heavy calculation in case of cache miss
-
-    print("-------------------------------------")
-
     score = store.cache_get(key) or 0
-    print("score-CACH =", score)
 
     if score:
         return score
@@ -30,7 +26,6 @@ def get_score(store, phone, email, birthday=None, gender=None, first_name=None, 
     if first_name and last_name:
         score += 0.5
     # cache for 60 minutes
-    print("score-calc =", score)
     store.cache_set(key, score, 10)  # 60 * 60)
     return score
 
