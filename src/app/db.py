@@ -59,3 +59,16 @@ class Store:
         except IndexError:
             pass
         return ()
+
+    def set(self, key: str, value: str):
+        """
+        Put key, value to persistent store
+        """
+        self.link_space.replace((key, value, 0))
+
+    def get(self, key: str):
+        """
+        Get value by key, from persistent store
+        """
+        response = self.link_space.select(key)
+        return response.data[0][1]
