@@ -1,6 +1,8 @@
 import hashlib
 import json
 
+from app.db import Store
+
 
 def get_score(store, phone, email, birthday=None, gender=None, first_name=None, last_name=None):
     phone = str(phone)
@@ -13,7 +15,7 @@ def get_score(store, phone, email, birthday=None, gender=None, first_name=None, 
     key = "uid:" + hashlib.md5("".join(key_parts).encode()).hexdigest()
     # try get from cache,
     # fallback to heavy calculation in case of cache miss
-    score = store.cache_get(key) or 0
+    score = float(store.cache_get(key)) or 0
 
     if score:
         return score
@@ -30,6 +32,6 @@ def get_score(store, phone, email, birthday=None, gender=None, first_name=None, 
     return score
 
 
-def get_interests(store, cid):
+def get_interests(store: Store, cid):
     r = store.get("i:%s" % cid)
     return json.loads(r) if r else []

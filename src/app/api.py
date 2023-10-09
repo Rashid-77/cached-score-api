@@ -104,7 +104,8 @@ class PhoneField(Field):
             raise ValueError("Phone number shoud be int or str")
         if not re.match(r"^7[0-9]{10}$", str(val)):
             raise ValueError("Phone number must be 11 symbols length and start with 7")
-        return val
+
+        return val if (isinstance(val, str)) else str(val)
 
 
 class DateField(CharField):
