@@ -10,11 +10,13 @@ from datetime import date
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from optparse import OptionParser
 
-from scoring import get_interests, get_score
+from app.db import Store
+from app.scoring import get_interests, get_score
 
 SALT = "Otus"
 ADMIN_LOGIN = "admin"
 ADMIN_SALT = "42"
+
 OK = 200
 BAD_REQUEST = 400
 FORBIDDEN = 403
@@ -28,6 +30,7 @@ ERRORS = {
     INVALID_REQUEST: "Invalid Request",
     INTERNAL_ERROR: "Internal Server Error",
 }
+
 UNKNOWN = 0
 MALE = 1
 FEMALE = 2
@@ -74,6 +77,7 @@ class CharField(Field):
     def validate(self, val):
         if not isinstance(val, str):
             raise ValueError(f"Value {val} have to be str, not {type(val)}")
+        return val
 
 
 class ArgumentsField(Field):
@@ -123,7 +127,7 @@ class BirthDayField(DateField):
         self.value = super().validate(val)
         if self.is_old():
             raise ValueError("Age must be less than 70 years.")
-        return val
+        return self.value
 
     def is_old(self) -> bool:
         today = date.today()
@@ -195,7 +199,7 @@ class OnlineScoreRequest(BaseRequest):
         else:
             return {
                 "score": get_score(
-                    store="",
+                    store=self.store,
                     phone=self.phone,
                     email=self.email,
                     birthday=self.birthday,
@@ -275,7 +279,7 @@ def method_handler(request, ctx, store):
 
 class MainHTTPHandler(BaseHTTPRequestHandler):
     router = {"method": method_handler}
-    store = None
+    store = Store("store")
 
     def get_request_id(self, headers):
         return headers.get("HTTP_X_REQUEST_ID", uuid.uuid4().hex)
